@@ -4,7 +4,7 @@
 
 This repository powers dynamic badges for bkness’s public repositories and issues, using GitHub Actions and public gists.
 
-<img src="assets/gist-banner.svg">
+<img src="assets/gist.svg">
 
 ## Dynamic Badges
 
