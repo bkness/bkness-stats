@@ -68,7 +68,6 @@ def list_repos(visibility):
 def count_open_issues(repo):
     count = 0
     page = 1
-
     while True:
         issues = gh_api(
             f"/repos/{OWNER}/{repo}/issues",
@@ -76,10 +75,8 @@ def count_open_issues(repo):
         )
         if not issues:
             break
-
         count += sum(1 for issue in issues if "pull_request" not in issue)
         page += 1
-
     return count
 
 
