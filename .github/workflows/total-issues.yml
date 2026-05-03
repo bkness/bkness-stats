@@ -13,7 +13,7 @@ jobs:
         id: count_issues
         run: |
           count=0
-          for repo in $(gh repo list bkness --visibility all --limit 1000 --json name --jq '.[].name'); do
+          for repo in $(gh repo list bkness --visibility=public --limit 1000 --json name --jq '.[].name') $(gh repo list bkness --visibility=private --limit 1000 --json name --jq '.[].name'); do
             issues=$(gh issue list --repo bkness/$repo --state open --limit 1000 --json number --jq 'length')
             count=$((count + issues))
           done

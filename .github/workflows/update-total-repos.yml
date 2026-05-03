@@ -12,7 +12,9 @@ jobs:
       - name: Count all repos
         id: count
         run: |
-          count=$(gh repo list bkness --visibility=all --limit 1000 --json name --jq 'length')
+          public=$(gh repo list bkness --visibility=public --limit 1000 --json name --jq 'length')
+          private=$(gh repo list bkness --visibility=private --limit 1000 --json name --jq 'length')
+          count=$((public + private))
           echo "count=$count" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.STATS_TOKEN }}
