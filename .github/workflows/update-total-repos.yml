@@ -1,29 +1,29 @@
 name: Update Total Repositories Gist
 
 on:
-    schedule:
-        - cron: '0 * * * *' # Runs every hour
-    workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *" # Runs every hour
+  workflow_dispatch:
 
 jobs:
-    update-gists:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Count all repos
-              id: count
-              run: |
-                count=$(gh repo list bkness --public --json name --jq 'length')
-                echo "count=$count" >> $GITHUB_OUTPUT
-              env: 
-                GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  update-gists:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Count all repos
+        id: count
+        run: |
+          count=$(gh repo list bkness --visibility=all --limit 1000 --json name --jq 'length')
+          echo "count=$count" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.STATS_TOKEN }}
 
-            - name: Update gist
-              run: |
-                gist_id=b30f1f99edb7844f8484c6e520b5a322
-                file_name=total-repos.json
-                count=${{ steps.count.outputs.count }}
-                date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-                echo "{\"total_repos\": $count, \"updated_at\": \"$date\"}" > $file_name
-                gh gist edit $gist_id $file_name 
-              env:
-                GH_TOKEN: ${{ secrets.GIST_TOKEN }}
+      - name: Update gist
+        run: |
+          gist_id=b30f1f99edb7844f8484c6e520b5a322
+          file_name=total-repos.json
+          count=${{ steps.count.outputs.count }}
+          date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "{\"total_repos\": $count, \"updated_at\": \"$date\"}" > $file_name
+          gh gist edit $gist_id $file_name
+        env:
+          GH_TOKEN: ${{ secrets.GIST_TOKEN }}

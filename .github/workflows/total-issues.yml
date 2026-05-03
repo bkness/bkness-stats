@@ -1,29 +1,33 @@
 name: Get Total Issues Gist
 
 on:
-    schedule:
-        - cron: '0 * * * *' # runs every hour
-    workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *" # runs every hour
+  workflow_dispatch:
 
 jobs:
-    update-gists:
-      runs-on: ubuntu-latest
-      steps: 
-        - name: Count all issues
-          id: count_issues
-          run: | 
-            count=$(gh issue list --repo bkness/bkness-stats --json number --jq 'length')
-            echo "count=$count" >> $GITHUB_OUTPUT
-          env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-        - name: Update gist
-          run: |
-            gist_id=2cb0ef8788a0f3a9f061df669baeb90c
-            file_name=total-issues.json
-            count=${{ steps.count_issues.outputs.count }} 
-            date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-            echo "{\"total_issues\": $count, \"updated_at\": \"$date\"}" > $file_name
-            gh gist edit $gist_id $file_name 
-          env:
-            GH_TOKEN: ${{ secrets.GIST_TOKEN }}     
+  update-gists:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Count all open issues across repositories
+        id: count_issues
+        run: |
+          count=0
+          for repo in $(gh repo list bkness --visibility all --limit 1000 --json name --jq '.[].name'); do
+            issues=$(gh issue list --repo bkness/$repo --state open --limit 1000 --json number --jq 'length')
+            count=$((count + issues))
+          done
+          echo "count=$count" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.STATS_TOKEN }}
+
+      - name: Update gist
+        run: |
+          gist_id=2cb0ef8788a0f3a9f061df669baeb90c
+          file_name=total-issues.json
+          count=${{ steps.count_issues.outputs.count }} 
+          date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          echo "{\"total_issues\": $count, \"updated_at\": \"$date\"}" > $file_name
+          gh gist edit $gist_id $file_name
+        env:
+          GH_TOKEN: ${{ secrets.GIST_TOKEN }}
