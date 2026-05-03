@@ -19,7 +19,8 @@ def gh_api(path, params=None):
     return response.json()
 
 
-def list_repos(visibility):
+
+def fetch_repos(visibility):
     repos = []
     page = 1
 
@@ -34,7 +35,34 @@ def list_repos(visibility):
         repos.extend(data)
         page += 1
 
-    return [repo["name"] for repo in repos]
+    return repos
+
+
+def fetch_org_repos(visibility):
+    repos = []
+    page = 1
+
+    while True:
+        data = gh_api(
+            f"/orgs/{OWNER}/repos",
+            {"visibility": visibility, "per_page": 100, "page": page},
+        )
+        if not data:
+            break
+
+        repos.extend(data)
+        page += 1
+
+    return repos
+
+
+def list_repos(visibility):
+    try:
+        return [repo["name"] for repo in fetch_repos(visibility)]
+    except requests.HTTPError as exc:
+        if exc.response.status_code in (403, 404):
+            return [repo["name"] for repo in fetch_org_repos(visibility)]
+        raise
 
 
 def count_open_issues(repo):
