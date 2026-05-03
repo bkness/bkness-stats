@@ -1,0 +1,64 @@
+<svg width="800" height="220" viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"></stop>
+      <stop offset="100%" stop-color="#1e293b"></stop>
+    </linearGradient>
+
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"></stop>
+      <stop offset="100%" stop-color="#6366f1"></stop>
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3.5" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="220" fill="url(#bg)" rx="16"></rect>
+
+  <!-- Grid -->
+  <g opacity="0.05">
+    <path d="M0 40 H800 M0 80 H800 M0 120 H800 M0 160 H800 M0 200 H800" stroke="#fff"></path>
+    <path d="M80 0 V220 M160 0 V220 M240 0 V220 M320 0 V220 M400 0 V220 M480 0 V220 M560 0 V220 M640 0 V220 M720 0 V220" stroke="#fff"></path>
+  </g>
+
+  <!-- Workflow graph -->
+  <g filter="url(#glow)">
+    <circle cx="150" cy="110" r="6" fill="#38bdf8"></circle>
+    <circle cx="300" cy="70" r="6" fill="#6366f1"></circle>
+    <circle cx="300" cy="150" r="6" fill="#6366f1"></circle>
+    <circle cx="450" cy="110" r="6" fill="#22c55e"></circle>
+    <circle cx="600" cy="110" r="6" fill="#f59e0b"></circle>
+
+    <path d="M150 110 L300 70" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M150 110 L300 150" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M300 70 L450 110" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M300 150 L450 110" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M450 110 L600 110" stroke="url(#accent)" stroke-width="2"></path>
+  </g>
+
+  <!-- Title -->
+  <text x="40" y="60" fill="#e2e8f0" font-size="22" font-family="monospace">
+    workflow automations
+  </text>
+
+  <!-- Subtitle -->
+  <text x="40" y="90" fill="#64748b" font-size="14" font-family="monospace">
+    get-repos • get-issues • github actions
+  </text>
+
+  <!-- Accent bar -->
+  <rect x="40" y="105" width="240" height="3" fill="url(#accent)" rx="2"></rect>
+
+  <!-- 🔥 LIVE BADGES INSIDE SVG -->
+  <image href="https://img.shields.io/badge/dynamic/json?color=38bdf8&amp;label=repos&amp;query=%24.total_repos&amp;url=https://gist.github.com/bkness/b30f1f99edb7844f8484c6e520b5a322/raw/total-repos.json" x="40" y="150" height="28"></image>
+
+  <image href="https://img.shields.io/badge/dynamic/json?color=6366f1&amp;label=issues&amp;query=%24.total_issues&amp;url=https://gist.github.com/bkness/2cb0ef8788a0f3a9f061df669baeb90c/raw/total-issues.json" x="200" y="150" height="28"></image>
+
+</svg>
