@@ -1,0 +1,70 @@
+<svg width="800" height="200" viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"></stop>
+      <stop offset="100%" stop-color="#1e293b"></stop>
+    </linearGradient>
+
+    <!-- Accent gradient -->
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8"></stop>
+      <stop offset="100%" stop-color="#6366f1"></stop>
+    </linearGradient>
+
+    <!-- Glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3.5" result="coloredBlur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="coloredBlur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="200" fill="url(#bg)" rx="16"></rect>
+
+  <!-- Subtle grid -->
+  <g opacity="0.05">
+    <path d="M0 40 H800 M0 80 H800 M0 120 H800 M0 160 H800" stroke="#fff"></path>
+    <path d="M80 0 V200 M160 0 V200 M240 0 V200 M320 0 V200 M400 0 V200 M480 0 V200 M560 0 V200 M640 0 V200 M720 0 V200" stroke="#fff"></path>
+  </g>
+
+  <!-- Workflow nodes -->
+  <g filter="url(#glow)">
+    <!-- Circles -->
+    <circle cx="150" cy="100" r="6" fill="#38bdf8"></circle>
+    <circle cx="300" cy="60" r="6" fill="#6366f1"></circle>
+    <circle cx="300" cy="140" r="6" fill="#6366f1"></circle>
+    <circle cx="450" cy="100" r="6" fill="#22c55e"></circle>
+    <circle cx="600" cy="100" r="6" fill="#f59e0b"></circle>
+
+    <!-- Lines -->
+    <path d="M150 100 L300 60" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M150 100 L300 140" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M300 60 L450 100" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M300 140 L450 100" stroke="url(#accent)" stroke-width="2"></path>
+    <path d="M450 100 L600 100" stroke="url(#accent)" stroke-width="2"></path>
+  </g>
+
+  <!-- Labels -->
+  <text x="150" y="125" text-anchor="middle" fill="#94a3b8" font-size="12">fetch</text>
+  <text x="300" y="45" text-anchor="middle" fill="#94a3b8" font-size="12">repos</text>
+  <text x="300" y="165" text-anchor="middle" fill="#94a3b8" font-size="12">issues</text>
+  <text x="450" y="125" text-anchor="middle" fill="#94a3b8" font-size="12">process</text>
+  <text x="600" y="125" text-anchor="middle" fill="#94a3b8" font-size="12">output</text>
+
+  <!-- Title -->
+  <text x="40" y="60" fill="#e2e8f0" font-size="22" font-family="monospace">
+    workflow automations
+  </text>
+
+  <!-- Subtitle -->
+  <text x="40" y="90" fill="#64748b" font-size="14" font-family="monospace">
+    get-repos • get-issues • github actions
+  </text>
+
+  <!-- Accent bar -->
+  <rect x="40" y="110" width="220" height="3" fill="url(#accent)" rx="2"></rect>
+</svg>
