@@ -19,7 +19,7 @@ jobs:
 
             - name: Update gist
               run: |
-                gist_id=gist:b30f1f99edb7844f8484c6e520b5a322
+                gist_id=b30f1f99edb7844f8484c6e520b5a322
                 file_name=total-repos.json
                 count=${{ steps.count.outputs.count }}
                 echo "{\"total_repos\": $count}" > $file_name
