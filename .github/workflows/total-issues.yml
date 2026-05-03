@@ -9,25 +9,28 @@ jobs:
   update-gists:
     runs-on: ubuntu-latest
     steps:
-      - name: Count all open issues across repositories
-        id: count_issues
-        run: |
-          count=0
-          for repo in $(gh repo list bkness --visibility=public --limit 1000 --json name --jq '.[].name') $(gh repo list bkness --visibility=private --limit 1000 --json name --jq '.[].name'); do
-            issues=$(gh issue list --repo bkness/$repo --state open --limit 1000 --json number --jq 'length')
-            count=$((count + issues))
-          done
-          echo "count=$count" >> $GITHUB_OUTPUT
-        env:
-          GH_TOKEN: ${{ secrets.STATS_TOKEN }}
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Update gist
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Count all open issues
+        run: python scripts/count_stats.py
+        env:
+          STATS_TOKEN: ${{ secrets.STATS_TOKEN }}
+
+      - name: update gist
         run: |
           gist_id=2cb0ef8788a0f3a9f061df669baeb90c
           file_name=total-issues.json
-          count=${{ steps.count_issues.outputs.count }} 
-          date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          echo "{\"total_issues\": $count, \"updated_at\": \"$date\"}" > $file_name
           gh gist edit $gist_id $file_name
         env:
           GH_TOKEN: ${{ secrets.GIST_TOKEN }}
